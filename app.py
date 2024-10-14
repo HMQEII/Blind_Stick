@@ -72,7 +72,7 @@ def receive_data():
     data = request.json
 
     # Validate that the data contains the required fields
-    required_fields = ['distance', 'ir_value']
+    required_fields = ['distance', 'ir_value', 'location']
     missing_fields = [field for field in required_fields if field not in data]
 
     if missing_fields:
@@ -81,15 +81,17 @@ def receive_data():
     # Extract sensor data with default values
     distance = data.get('distance', 0)
     ir_value = data.get('ir_value', 5)
+    location = data.get('location', 'Unknown')
 
     # Store the received data in the global variable
     last_received_data = {
         'distance': distance,
         'ir_value': ir_value,
+        'location' : location,
     }
 
     # Log received data (for debugging or later use)
-    logging.info(f"Received data: Distance={distance}, IR={ir_value}")
+    logging.info(f"Received data: Distance={distance}, IR={ir_value}, Location={location}")
 
     # Respond with success message
     return jsonify({'status': 'success', 'message': 'Data received successfully!'}), 200
